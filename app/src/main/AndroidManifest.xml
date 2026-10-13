@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <!-- La app configuradora necesita: leer la galería, descargar el APK de LSPatch y guardarlo -->
+    <uses-permission android:name="android.permission.READ_MEDIA_VIDEO" />
+    <uses-permission android:name="android.permission.READ_MEDIA_IMAGES" />
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.REQUEST_INSTALL_PACKAGES" />
+    <!-- Para Android <= 12 ( API 32 ) -->
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"
+        android:maxSdkVersion="32" />
+    <!-- Android 11+ (API 30+): necesario para listar las apps instaladas en el selector de apps objetivo -->
+    <uses-permission android:name="android.permission.QUERY_ALL_PACKAGES"
+        tools:ignore="QueryAllPackagesPermission" />
+    <!-- Para escribir config + foto/video en DCIM/VirtualCam en Android 11+ (API 30+):
+         el usuario debe conceder "Acceso a todos los archivos" en Ajustes (la app lo solicita) -->
+    <uses-permission android:name="android.permission.MANAGE_EXTERNAL_STORAGE"
+        tools:ignore="ScopedStorage" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"
+        android:maxSdkVersion="29" />
+
+    <application
+        android:label="VirtualCam"
+        android:icon="@android:drawable/ic_menu_camera"
+        android:theme="@android:style/Theme.Material.Light.NoActionBar"
+        android:requestLegacyExternalStorage="true">
+
+        <!-- App configuradora: se abre normalmente -->
+        <activity
+            android:name=".MainActivity"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+
+        <!--
+          Declaración de módulo Xposed (la lee LSPosed).
+          Para LSPatch en modo "integrado" el módulo se declara igual,
+          porque LSPatch reutiliza el mismo mecanismo de descubrimiento.
+        -->
+        <meta-data android:name="xposedmodule" android:value="true" />
+        <meta-data android:name="xposeddescription" android:value="Cámara virtual: sustituye la cámara de otras apps por un video o foto de tu galería" />
+        <meta-data android:name="xposedminversion" android:value="93" />
+        <meta-data android:name="xposedscope" android:value="*" />
+
+        <!--
+          Servicio de assets del módulo: LSPosed/LSPatch leen estos metadatos
+          para saber qué archivos del módulo inyectar en las apps objetivo.
+        -->
+        <meta-data android:name="assets.xposedmodule" android:value="true" />
+        <meta-data android:name="assets.xposedversion" android:value="93" />
+
+    </application>
+
+</manifest>

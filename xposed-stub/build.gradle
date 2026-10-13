@@ -1,0 +1,12 @@
+// Stub de la API de Xposed: solo definiciones de clases para compilar.
+// En tiempo de ejecución LSPosed/LSPatch reemplazan estas clases por las reales.
+apply plugin: 'java-library'
+
+java {
+    sourceCompatibility = JavaVersion.VERSION_17
+    targetCompatibility = JavaVersion.VERSION_17
+}
+
+repositories {
+    mavenCentral()
+}

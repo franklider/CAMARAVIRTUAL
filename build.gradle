@@ -1,0 +1,5 @@
+// Proyecto raíz VirtualCam — módulo Xposed + app configuradora (basado en la técnica de VCAM, ejecutable vía LSPatch sin root)
+plugins {
+    id 'com.android.application' version '8.5.2' apply false
+    id 'org.jetbrains.kotlin.android' version '1.9.24' apply false
+}
